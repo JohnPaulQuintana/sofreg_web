@@ -7,8 +7,9 @@ import CareerHeader from "../components/Career/CareerHeader";
 import SectionHeader from "../components/Career/SectionHeader";
 import CareerMarqueeSection from "../components/Career/CareerMarquee";
 import SectionContent from "../components/Career/SectionContent";
-import jobOverlay from "../components/Popup/JobOverlay.jsx";
+// import jobOverlay from "../components/Popup/JobOverlay.jsx";
 import FooterDetailed from "../components/FooterDetailed";
+import JobOverlay from "../components/Popup/JobOverlay.jsx";
 const Career = () => {
 
     const [isModalVisible, setIsModalVisible] = useState(false);
@@ -50,7 +51,7 @@ const Career = () => {
 
             <FooterDetailed />
             </div>
-            <jobOverlay isVisible={isModalVisible} details={selectedJob} onClose={closeModal}/>
+            <JobOverlay isVisible={isModalVisible} details={selectedJob} onClose={closeModal}/>
         </div>
     )
 }
