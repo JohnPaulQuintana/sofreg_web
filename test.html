@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stacking Parallax Effect</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+    }
+    .parallax-layer {
+      position: fixed;
+      width: 100%;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+      color: white;
+      font-weight: bold;
+      transform: translateY(100%);
+      transition: transform 0.5s ease-out;
+    }
+  </style>
+</head>
+<body>
+  <div class="parallax-layer" style="background-color: #ff6f61; z-index: 1;">Layer 1</div>
+  <div class="parallax-layer" style="background-color: #6b5b95; z-index: 2;">Layer 2</div>
+  <div class="parallax-layer" style="background-color: #88b04b; z-index: 3;">Layer 3</div>
+
+  <script>
+    const layers = document.querySelectorAll('.parallax-layer');
+
+    window.addEventListener('scroll', () => {
+      const scrollY = window.scrollY;
+      const viewportHeight = window.innerHeight;
+
+      layers.forEach((layer, index) => {
+        if (scrollY >= viewportHeight * index) {
+          layer.style.transform = 'translateY(0)';
+        } else {
+          layer.style.transform = 'translateY(100%)';
+        }
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,8 @@
+🔥 What This Does
+        Authenticates the user with GET
+
+        If successful, proceeds to step 2.
+        If authentication fails, shows an error.
+        Sends a POST request after successful login
+
+        Inserts { id: "INCREMENT", name: "Mark", age: 18 } into the database.

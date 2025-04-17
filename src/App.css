@@ -1,0 +1,63 @@
+/* Define CSS variables inside the :root selector */
+:root {
+  /* Color variables */
+  --background-color: #1e1b1b;
+}
+body{
+  background-color: var(--background-color);
+  /* border: 1px solid red; */
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.skeleton{
+  width: 100% !important;
+  height: 260px !important;
+}
+
+.bouncing-text {
+  display: flex;
+  gap: 2px; /* Adjust spacing between letters */
+}
+
+.bouncing-letter {
+  display: inline-block;
+  animation: bounce 1s ease-in-out infinite;
+  animation-delay: 0s; /* Delay is dynamically applied in inline styles */
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px); /* Adjust bounce height */
+  }
+}
+
+
+
+/* .content h2:nth-child(1)
+{
+  color: transparent;
+  -webkit-text-stroke: 5px #03a9f4;
+}
+.content h2:nth-last-child(2)
+{
+  -webkit-text-stroke: 5px #03a9f4;
+  z-index: 10;
+  color: #03a9f4;
+  animation: animate 3s ease-in-out infinite;
+}
+
+@keyframes animate 
+{
+  0%, 100%
+  {
+    clip-path: polygon(1% 41%, 11% 39%, 22% 40%, 36% 45%, 52% 51%, 66% 56%, 78% 55%, 91% 48%, 100% 43%, 100% 100%, 2% 99%);
+  }
+  50%{
+    clip-path: polygon(1% 53%, 14% 57%, 27% 59%, 40% 58%, 53% 54%, 70% 46%, 79% 43%, 89% 41%, 100% 40%, 100% 100%, 2% 99%, 2% 56%);
+  }
+} */
