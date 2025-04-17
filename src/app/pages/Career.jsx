@@ -7,7 +7,7 @@ import CareerHeader from "../components/Career/CareerHeader";
 import SectionHeader from "../components/Career/SectionHeader";
 import CareerMarqueeSection from "../components/Career/CareerMarquee";
 import SectionContent from "../components/Career/SectionContent";
-import JobOverlay from "../components/popup/jobOverlay";
+import JobOverlay from "../components/Popup/JobOverlay.jsx";
 import FooterDetailed from "../components/FooterDetailed";
 const Career = () => {
 
