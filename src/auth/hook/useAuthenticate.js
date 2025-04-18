@@ -3,6 +3,7 @@ import axios from "axios";
 import Swal from "sweetalert2";
 
 const useAuthenticate = () => {
+  const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [data, setData] = useState(null);
@@ -51,20 +52,36 @@ const useAuthenticate = () => {
       if (!token.user.password_changed) {
         Swal.fire({
           title: "Default Password Detected",
-          text: "You are using the default password. Please change it now.",
+          html: `
+            <p>You are using the default password. Please change it now.</p>
+            <div style="position: relative; px-10">
+              <input type="password" id="new-password" class="w-full p-2 border" placeholder="Enter new password" style="padding-right: 40px;">
+              <button id="toggle-password" type="button" style="position: absolute; top: 50%; right: 10px; transform: translateY(-50%); background: none; border: none; cursor: pointer; font-size: 0.9rem; color: #333;">
+                show
+              </button>
+            </div>
+          `,
           icon: "warning",
-          input: "password",
-          inputPlaceholder: "Enter new password",
-          // inputAttributes: {
-          //   minlength: 6,
-          //   required: true,
-          // },
           showCancelButton: false,
           confirmButtonText: "Update Password",
+          confirmButtonColor: "rgb(31 41 55)", // 💚 emerald-500
           allowOutsideClick: false,
           allowEscapeKey: false,
-          preConfirm: async (newPassword) => {
-            console.log("preConfirm Triggered, Input:", newPassword); // ✅ Check input
+          didOpen: () => {
+            const toggle = document.getElementById("toggle-password");
+            const input = document.getElementById("new-password");
+            toggle.addEventListener("click", () => {
+              const isVisible = input.type === "text";
+              input.type = isVisible ? "password" : "text";
+              toggle.textContent = isVisible ? "show" : "hide";
+            });
+          },
+          preConfirm: async () => {
+            const newPassword = document.getElementById("new-password").value;
+            if (!newPassword || newPassword.length < 6) {
+              Swal.showValidationMessage("New password is required and must be at least 6 characters.");
+              return false;
+            }
         
             try {
               const response = await axios.post(
@@ -78,25 +95,28 @@ const useAuthenticate = () => {
                 }
               );
         
-              console.log("✅ API Response:", response.data);
               if (response.data.success) {
                 token.changed_password = true;
                 localStorage.setItem("authentication", JSON.stringify(token));
-                return Swal.fire("Success!", "Your password has been updated.", "success");
+                return true;
               } else {
-                return Swal.showValidationMessage("❌ Password update failed. Try again.");
+                Swal.showValidationMessage("❌ Password update failed. Try again.");
+                return false;
               }
             } catch (error) {
               console.error("API Error:", error);
-              return Swal.showValidationMessage("New password is required. Try again.");
+              Swal.showValidationMessage("Something went wrong. Please try again.");
+              return false;
             }
           },
         }).then((result) => {
-          console.log("Swal Result:", result);
           if (result.isConfirmed) {
-            window.location.href = `/${token.role}`;
+            Swal.fire("✅ Success!", "Your password has been updated.", "success").then(() => {
+              window.location.href = `/${token.role}`;
+            });
           }
         });
+        
         
       } else {
         window.location.href = `/${token.role}`;

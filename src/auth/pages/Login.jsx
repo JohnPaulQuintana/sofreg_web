@@ -6,6 +6,8 @@ import ProgressScrollButton from "../../app/components/ProgressScrollButton";
 import Footer from "../../app/components/Footer";
 import FooterDetailed from "../../app/components/FooterDetailed";
 const Login = () => {
+  const [showPassword, setShowPassword] = useState(false);
+
   const { data, loading, error, fetchData } = useAuthenticate();
   const [emp_id, setEmpId] = useState("");
   const [password, setPassword] = useState("");
@@ -23,8 +25,6 @@ const Login = () => {
       {/* Cursor */}
       <div className="cursor"></div>
 
-
-
       {/* progess scroll */}
       <ProgressScrollButton />
 
@@ -36,14 +36,20 @@ const Login = () => {
                 <div className="row justify-content-center p-2">
                   <div className="col-lg-4 border p-5 rounded-sm">
                     <div className="img flex justify-center">
-                      <img className="w-48" src="/assets/PNG/LOGO 2.2_1.png" alt="404" />
+                      <img
+                        className="w-48"
+                        src="/assets/PNG/LOGO 2.2_1.png"
+                        alt="404"
+                      />
                     </div>
                     <div className="text mt-4">
                       {/* <h2 className="mb-10 text-5xl font-bold">Page not found</h2> */}
                       {/* <p className="text-xl">Sorry, but the page you are looking for does not exist.</p> */}
                       <form className="space-y-5" onSubmit={handleLogin}>
                         <div>
-                          <label htmlFor="emp_id" className="block text-start">Employee ID</label>
+                          <label htmlFor="emp_id" className="block text-start">
+                            Employee ID
+                          </label>
                           <input
                             type="text"
                             id="emp_id"
@@ -52,24 +58,41 @@ const Login = () => {
                             onChange={(e) => setEmpId(e.target.value)}
                           />
                         </div>
-                        <div>
-                          <label htmlFor="password" className="block text-start">Password</label>
+                        <div className="relative">
+                          <label
+                            htmlFor="password"
+                            className="block text-start"
+                          >
+                            Password
+                          </label>
                           <input
-                            type="password"
+                            type={showPassword ? "text" : "password"}
                             id="password"
-                            className="w-full p-2 border text-color-dark"
+                            className="w-full p-2 border text-color-dark pr-10"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                           />
+                          <button
+                            type="button"
+                            className="absolute right-2 top-9 text-sm text-color-primary-blue"
+                            onClick={() => setShowPassword((prev) => !prev)}
+                          >
+                            {showPassword ? "Hide" : "Show"}
+                          </button>
                         </div>
 
-                        <button type="submit" className="w-full bg-blue-500 text-white p-2" disabled={loading}>
+                        <button
+                          type="submit"
+                          className="w-full bg-blue-500 text-white p-2"
+                          disabled={loading}
+                        >
                           {loading ? "Loading..." : "Login"}
                         </button>
 
-                        {error && <p style={{ color: "red" }}>{error.message}</p>}
+                        {error && (
+                          <p style={{ color: "red" }}>{error.message}</p>
+                        )}
                       </form>
-
                     </div>
                   </div>
                 </div>

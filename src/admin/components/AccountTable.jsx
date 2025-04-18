@@ -18,6 +18,39 @@ const AccountTable = ({ accountData, onPageChange }) => {
 
     const editEmployeeUrlAPi = `${import.meta.env.VITE_API_URL}/admin/edit-employee`
     const deleteEmployeeApi = `${import.meta.env.VITE_API_URL}/admin/delete-employee`;
+    const resetPasswordApi = `${import.meta.env.VITE_API_URL}/admin/reset-password`;
+
+    const handleResetPassword = async (emp_id) => {
+        Swal.fire({
+            title: "Reset Password?",
+            html: `<div class="flex flex-col items-center">
+                <p class="text-gray-700">This will reset the user's password to the default value.</p>
+                <p class="border border-gray-700 text-red-500 p-1 w-fit">Password: sofreg1234!</p>
+            </div>`,
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#1E1D1D",
+            cancelButtonColor: "#3085d6",
+            confirmButtonText: "Yes, reset it!"
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                try {
+                    const authData = JSON.parse(localStorage.getItem("authentication")) || {};
+                    const response = await axios.post(resetPasswordApi, { employee_id: emp_id }, {
+                        headers: {
+                            Authorization: `Bearer ${authData.token}`,
+                            "Content-Type": "application/json",
+                        },
+                    });
+    
+                    Swal.fire("✅ Success", response.data.message || "Password has been reset.", "success");
+                } catch (error) {
+                    console.error("Error resetting password:", error);
+                    Swal.fire("❌ Error", "Failed to reset password.", "error");
+                }
+            }
+        });
+    };
 
     const editEmployee = async (emp_id) => {
         // alert(emp_id)
@@ -133,6 +166,7 @@ const AccountTable = ({ accountData, onPageChange }) => {
                                     <td className="flex gap-2 items-center justify-center p-2 whitespace-nowrap">
                                         <button onClick={()=>editEmployee(record.employee_id)} type="button" className="text-xs bg-color-dark rounded-sm p-1">Edit</button>
                                         <button onClick={()=>handleDelete(record.employee_id)} type="button" className="text-xs bg-red-500 rounded-sm p-1">Delete</button>
+                                        <button onClick={()=>handleResetPassword(record.employee_id)} type="button" className="text-xs bg-red-500 rounded-sm p-1">Reset Password</button>
                                     </td>
                                 </tr>
                             ))
